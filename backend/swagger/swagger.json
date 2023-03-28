@@ -1,0 +1,262 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a NodeJS API Swagger Documentation",
+        "version": "1.0.0",
+        "title": "Product API",
+        "contact": {
+            "email": "meetkakadiya710@gmail.com"
+        }
+    },
+    "schemes": ["http"],
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "paths" : {
+        "/user" : {
+            "get" : {
+                "summary" : "Get all the products",
+                "description": "Get all the products",
+                "produces": ["application/json"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/productResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/add" : {
+            "post" : {
+                "summary" : "Save the Products",
+                "description": "Save the Products",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Products object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ValidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}" : {
+            "put" : {
+                "summary" : "Update the products",
+                "description": "Update the products",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "product id that needs to be updated",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "task object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/ProductUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ValidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/{id}" : {
+            "delete" : {
+                "summary" : "Delete the product",
+                "description": "Delete the product",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "product id that needs to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ValidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        }
+    }, 
+    "definitions": {
+        "productResponse": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                     "type": "string"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productOwnerName": {
+                    "type": "string"
+                },
+                "Developers": {
+                    "type": "array",
+                    "items": {
+                        "type":"string",
+                        "description": "Add up to 5 names"
+                    }
+                },
+                "scrumMasterName": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "methodology": {
+                    "type": "string",
+                    "description": "Choose one of this Methodology  Agile or Waterfall"
+
+                }
+            }
+        },
+        "Product": {
+            "type": "object",
+            "properties": {
+                "productName": {
+                    "type": "string"
+                },
+                "productOwnerName": {
+                    "type": "string"
+                },
+                "Developers": {
+                    "type": "array",
+                    "items": {
+                        "type":"string",
+                        "description": "Add up to 5 names"
+                    }
+                },
+                "scrumMasterName": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "methodology": {
+                    "type": "string",
+                    "description": "Choose one of this Methodology  Agile or Waterfall"
+                }
+            }
+        },
+        "ProductUpdate": {
+            "type": "object",
+            "properties": {
+                "productName": {
+                    "type": "string"
+                },
+                "productOwnerName": {
+                    "type": "string"
+                },
+                "Developers": {
+                    "type": "array",
+                    "items": {
+                        "type":"string",
+                        "description": "Add up to 5 names"
+                    }
+                },
+                "scrumMasterName": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "methodology": {
+                    "type": "string",
+                    "description": "Choose one of this Methodology  Agile or Waterfall"
+                },
+                "productId": {
+                    "type": "string"
+                }
+            }
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        },
+        "ValidResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}
