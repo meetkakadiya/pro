@@ -8,3 +8,7 @@
     color: white;
   }
   
+  .navbar.fixed-top {
+    color: #242638;
+    background-color: #242638;
+  }

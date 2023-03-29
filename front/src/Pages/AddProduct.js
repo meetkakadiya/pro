@@ -5,6 +5,7 @@ import { Chips } from "primereact/chips";
 import axios from "axios";
 import { FormComponent } from "../components/FormComponent";
 import { Fieldset } from 'primereact/fieldset';
+import { Button, Modal, Form } from 'react-bootstrap'
 
 export const AddProduct = () => {
   let history = useNavigate();
@@ -22,9 +23,32 @@ export const AddProduct = () => {
     setViewAdd(false);
   };
 
+  const [productName, setProductName] = useState('')
+  const [productOwnerName, setProductOwnerName] = useState('')
+  const [Developers, setDevelopers] = useState([])
+  const [scrumMasterName, setScrumMasterName] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [methodology, setMethodology] = useState(null)
+
+  const optionList = [
+      { value: "WaterFall", label: "WaterFall" },
+      { value: "Agile", label: "Agile" }
+    ];
+
+    const handleSubmit = () => {
+      console.log('------submit called');
+      if(isEdit){
+        // handleEdit()
+      }else{
+        // handleAdd()
+      }
+    }
+
+
+
   return (
     <div
-      class="d-flex justify-content-center"
+      className="d-flex justify-content-center"
       style={{ margin: "5rem"  }}
     >
         <div className="card" style={{width:'50rem',}}>

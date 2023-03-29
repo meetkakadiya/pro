@@ -4,27 +4,53 @@ import Select from "react-select";
 import { Chips } from "primereact/chips";
 import axios from "axios";
 import { FormComponent } from "../components/FormComponent";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Button as Bt } from 'primereact/button';
+import { OrderList } from 'primereact/orderlist';
+import AlertComponent from "../components/AlertComponent";
 
 const Home = () => {
   const [Data, setData] = useState([]);
   const [RowData, setRowData] = useState([]);
+const navigate = useNavigate()
+const location = useLocation()
+const params = location.state || ''
+const [isAlert, setAlert] = useState(null);
+
+
+
+useEffect(() => {
+  GetProductData();
+}, []);
+
+useEffect(()=>{
+ if(!!params){
+  setAlert(params)
+ }
+},[location])
+
+useEffect(() => {
+  if(isAlert){
+    setTimeout(()=>{
+      setAlert(null)
+      window.history.replaceState({},document.title)
+    },1500)
+  }
+},[isAlert])
 
   // Edit data
   const [ViewEdit, setViewEdit] = useState(false);
   const handleEditShow = (item) => {
-    console.log("--------handle-----", item);
     setViewAdd(true);
     setRowData(item);
     setEdit(true);
     setId(item.productId);
   };
 
-  let history = useNavigate();
+  // let history = useNavigate();
   const handleEditClose = () => {
     setViewEdit(false);
   };
@@ -75,25 +101,6 @@ const Home = () => {
       });
   };
 
-  //handle Edit Function
-  // const handleEdit = () => {
-  //   const url = `http://localhost:3000/api/user/${id}`
-  //   // const new_data = { "productId": id, productName, productOwnerName, Developers, scrumMasterName, startDate, 'methodology':methodology.value }
-  //   axios.put(url, new_data)
-  //     .then(res => {
-  //       const result = res.data;
-  //       if (!result) {
-  //         alert(result.message)
-  //       } else {
-  //         alert(result.message)
-  //         window.location.reload()
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-  // }
-
   //handle Delete Function
   const handleDelete = () => {
     const url = `http://localhost:3000/api/delete/${id}`;
@@ -105,8 +112,9 @@ const Home = () => {
         if (!result) {
           alert(result.message);
         } else {
-          alert(result.message);
+          // alert(result.message);
           window.location.reload();
+          navigate('/')
         }
       })
       .catch((err) => {
@@ -139,19 +147,33 @@ const Home = () => {
     </div>
   );
 
+const renderDeveloperList = (rowData) => {
+
+  let data = rowData?.Developers?.slice(0,5)
+
+  return (
+    <div>
+      {data?.map((item, index)=>(
+        <li>{item}</li>
+      )
+       )}
+    </div>
+  )
+}
+
   const actionBodyTemplate = (rowData) => {
     return (
       <>
         <React.Fragment >
-        <Link to="/edit" state={{info:rowData, isEdit:true}}>
+        <div onClick={()=>{navigate("/edit", {state:{data:rowData, isEdit:true}})}} >
           <Bt
             icon="pi pi-pencil"
             rounded
             outlined
             className="mr-2"
-            onClick={() => {handleEditShow(rowData)}}
+            // onClick={() => {handleEditShow(rowData)}}
           />
-           </Link>
+           </div>
 
           <Bt
             icon="pi pi-trash"
@@ -165,15 +187,14 @@ const Home = () => {
     );
   };
 
-  useEffect(() => {
-    GetProductData();
-  }, []);
+ 
 
   return (
     <div
-      class="container-xl"
+      className="container-xl"
       style={{ marginTop: "50pt", marginBottom: "50pt" }}
     >
+      {!!isAlert && <AlertComponent success={isAlert?.success} msg={isAlert?.msg}/>}
       <div className="row">
         {/* <div className="mt-5 mb-4">
           <Link to="/create">
@@ -190,6 +211,7 @@ const Home = () => {
             rows={10}
             dataKey="productId"
             filterDisplay="row"
+            resizableColumns 
             rowsPerPageOptions={[5, 10, 25]}
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -214,6 +236,7 @@ const Home = () => {
               header="Developers"
               sortable
               style={{ width: "25%" }}
+              body={renderDeveloperList}
             ></Column>
             <Column
               field="scrumMasterName"
@@ -236,7 +259,6 @@ const Home = () => {
             <Column
               field="Action"
               header="Action"
-              sortable
               style={{ width: "25%" }}
               body={actionBodyTemplate}
             ></Column>

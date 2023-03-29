@@ -9,6 +9,11 @@ import swaggerDocument from './swagger/swagger.json' assert { type: "json" }
 import productRoute from './routes/productRoutes.js'
 import { assert } from "console";
 import { type } from "os";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 const app = express();
@@ -23,10 +28,21 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
 });
+app.use(express.static(__dirname));
+
+// app.get("/*", function(req, res) {
+//   res.sendFile(path.join(__dirname, "index.html"));
+// });
 
 app.use(cors({
     origin:'http://localhost:3001',
   }))
+
+app.use(express.static(__dirname));
+
+// app.get("/*", function(req, res) {
+//     res.sendFile(path.join(__dirname, "index.html"));
+//   });
 
 // Api route
 app.use('/api',productRoute)
