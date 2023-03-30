@@ -78,17 +78,6 @@ export function FormComponent(props) {
       });
   };
 
-  // const AlertMessage = ({success,msg=''}) => {
-  //   let class_c = success?'alert alert-success':'alert alert-danger';
-  //   return (
-  //     <div className={class_c} role="alert">
-  //      <p>{msg}</p>
-  //     </div>
-  //   );
-  // };
-
-  // console.log(isAlert);
-
   const handleEdit = () => {
     const url = `http://localhost:3000/api/user/${data.productId}`;
     const new_data = {
@@ -125,13 +114,13 @@ export function FormComponent(props) {
       setAlert({success:false, msg:'Please enter Developer.'})
 
     }else if(scrumMasterName == ''){
-      setAlert({success:false, msg:'Please enter product name.'})
+      setAlert({success:false, msg:'Please enter scrum saster name.'})
 
     }else if(startDate == ''){
-      setAlert({success:false, msg:'Please enter product name.'})
+      setAlert({success:false, msg:'Please enter product star date.'})
 
     }else if(methodology == null){
-      setAlert({success:false, msg:'Please enter product name.'})
+      setAlert({success:false, msg:'Please enter product methodology.'})
     }else{
       handleSubmit()
     }
@@ -170,7 +159,6 @@ export function FormComponent(props) {
         <label htmlFor="Developers">Developers</label>
         <Chips className="d-flex"
           required
-          // style={{ width: "100%" }}
           value={Developers}
           placeholder="Please enter Developer Names"
           separator=","

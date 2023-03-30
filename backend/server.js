@@ -30,19 +30,11 @@ app.use((req, res, next) => {
 });
 app.use(express.static(__dirname));
 
-// app.get("/*", function(req, res) {
-//   res.sendFile(path.join(__dirname, "index.html"));
-// });
-
 app.use(cors({
     origin:'http://localhost:3001',
   }))
 
 app.use(express.static(__dirname));
-
-// app.get("/*", function(req, res) {
-//     res.sendFile(path.join(__dirname, "index.html"));
-//   });
 
 // Api route
 app.use('/api',productRoute)

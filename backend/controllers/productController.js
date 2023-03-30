@@ -95,7 +95,7 @@ export const deleteProductController = (req, res) => {
             res.status(200).json({success: true, message:`products with id ${userId} has been deleted`})
           }, true);
     }catch(e){
-        res.status(400).json({success:false, message:`products with id ${productId} not deleted`})
+        res.status(400).json({success:false, message:`products with id ${userId} not deleted`})
     }
 }
     

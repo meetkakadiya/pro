@@ -1,59 +1,39 @@
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import { Chips } from "primereact/chips";
 import axios from "axios";
-import { FormComponent } from "../components/FormComponent";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Button as Bt } from 'primereact/button';
-import { OrderList } from 'primereact/orderlist';
+import { Button as Bt } from "primereact/button";
 import AlertComponent from "../components/AlertComponent";
 
 const Home = () => {
   const [Data, setData] = useState([]);
   const [RowData, setRowData] = useState([]);
-const navigate = useNavigate()
-const location = useLocation()
-const params = location.state || ''
-const [isAlert, setAlert] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = location.state || "";
+  const [isAlert, setAlert] = useState(null);
 
+  useEffect(() => {
+    GetProductData();
+  }, []);
 
+  useEffect(() => {
+    if (!!params) {
+      setAlert(params);
+    }
+  }, [location]);
 
-useEffect(() => {
-  GetProductData();
-}, []);
-
-useEffect(()=>{
- if(!!params){
-  setAlert(params)
- }
-},[location])
-
-useEffect(() => {
-  if(isAlert){
-    setTimeout(()=>{
-      setAlert(null)
-      window.history.replaceState({},document.title)
-    },1500)
-  }
-},[isAlert])
-
-  // Edit data
-  const [ViewEdit, setViewEdit] = useState(false);
-  const handleEditShow = (item) => {
-    setViewAdd(true);
-    setRowData(item);
-    setEdit(true);
-    setId(item.productId);
-  };
-
-  // let history = useNavigate();
-  const handleEditClose = () => {
-    setViewEdit(false);
-  };
+  useEffect(() => {
+    if (isAlert) {
+      setTimeout(() => {
+        setAlert(null);
+        window.history.replaceState({}, document.title);
+      }, 1500);
+    }
+  }, [isAlert]);
 
   // Delete data
   const [ViewDelete, setViewDelete] = useState(false);
@@ -64,21 +44,9 @@ useEffect(() => {
     setViewDelete(false);
   };
 
-  // Add data
-  const [ViewAdd, setViewAdd] = useState(false);
-  const handleAddShow = () => {
-    setEdit(false);
-    setViewAdd(true);
-  };
-
-  const handleAddClose = () => {
-    setViewAdd(false);
-  };
-
   // Local Variable Storage
 
   const [id, setId] = useState("");
-  const [isEdit, setEdit] = useState(false);
 
   //Get all product data
   const GetProductData = () => {
@@ -108,26 +76,25 @@ useEffect(() => {
       .delete(url)
       .then((res) => {
         const result = res.data;
-        // const { status, message } = result;
-        if (!result) {
-          alert(result.message);
+        if (!result.success) {
+          setAlert({ success: false, msg: result.message });
         } else {
-          // alert(result.message);
+          handleDeleteClose();
+          setAlert({ success: true, msg: result.message });
           window.location.reload();
-          navigate('/')
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        setAlert({ success: false, msg: err?.message });
       });
-      
   };
 
   const [globalFilter, setGlobalFilter] = useState(null);
 
+  // render search bar of the table
   const header = (
     <div className="flex flex-wrap gap-2 align-items-center justify-content-between">
-      
       <div className="d-flex justify-content-start p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -137,7 +104,7 @@ useEffect(() => {
         />
       </div>
       <div className="d-flex justify-content-end">
-        <Link to="/create" >
+        <Link to="/create">
           <Button variant="primary">
             <i className="fa fa-plu"></i>
             Add New Product
@@ -147,63 +114,62 @@ useEffect(() => {
     </div>
   );
 
-const renderDeveloperList = (rowData) => {
+  // render developer list up to 5
+  const renderDeveloperList = (rowData) => {
+    let data = rowData?.Developers?.slice(0, 5);
 
-  let data = rowData?.Developers?.slice(0,5)
+    return (
+      <div>
+        {data?.map((item, index) => (
+          <li>{item}</li>
+        ))}
+      </div>
+    );
+  };
 
-  return (
-    <div>
-      {data?.map((item, index)=>(
-        <li>{item}</li>
-      )
-       )}
-    </div>
-  )
-}
-
+  // Render action button
   const actionBodyTemplate = (rowData) => {
     return (
       <>
-        <React.Fragment >
-        <div onClick={()=>{navigate("/edit", {state:{data:rowData, isEdit:true}})}} >
-          <Bt
-            icon="pi pi-pencil"
-            rounded
-            outlined
-            className="mr-2"
-            // onClick={() => {handleEditShow(rowData)}}
-          />
-           </div>
+        <React.Fragment>
+          <div
+            onClick={() => {
+              navigate("/edit", { state: { data: rowData, isEdit: true } });
+            }}
+          >
+            <Bt
+              icon="pi pi-pencil"
+              rounded
+              outlined
+              className="mr-2"
+              // onClick={() => {handleEditShow(rowData)}}
+            />
+          </div>
 
           <Bt
             icon="pi pi-trash"
             rounded
             outlined
             severity="danger"
-            onClick={() => {handleDeleteShow(setRowData(rowData), setId(rowData.productId));}}
+            onClick={() => {
+              handleDeleteShow(setRowData(rowData), setId(rowData.productId));
+            }}
           />
         </React.Fragment>
       </>
     );
   };
 
- 
-
   return (
     <div
       className="container-xl"
       style={{ marginTop: "50pt", marginBottom: "50pt" }}
     >
-      {!!isAlert && <AlertComponent success={isAlert?.success} msg={isAlert?.msg}/>}
+      {!!isAlert && (
+        <AlertComponent success={isAlert?.success} msg={isAlert?.msg} />
+      )}
+      {/* DataTable shows all data */}
       <div className="row">
-        {/* <div className="mt-5 mb-4">
-          <Link to="/create">
-            <Button variant="primary">
-              <i className="fa fa-plu"></i>
-              Add New Product
-            </Button>
-          </Link>
-        </div> */}
         <div className="row">
           <DataTable
             value={Data}
@@ -211,7 +177,7 @@ const renderDeveloperList = (rowData) => {
             rows={10}
             dataKey="productId"
             filterDisplay="row"
-            resizableColumns 
+            resizableColumns
             rowsPerPageOptions={[5, 10, 25]}
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"

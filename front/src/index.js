@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Switch, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,12 +13,16 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 //core
 import "primereact/resources/primereact.min.css"; 
 import "primeicons/primeicons.css"; 
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <Router>
+<Header/>    
 <App />
+<Footer/>
 </Router>
   
 

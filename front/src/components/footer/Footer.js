@@ -5,7 +5,7 @@ const Footer = () => {
     <div className='footer'>
       <nav className="navbar fixed-bottom" style={{color:'#242638'}}>
         <div className="container-fluid">
-          <a className="navbar-brand" href="#" style={{color:'white'}}>Fixed bottom</a>
+          <a className="navbar-brand" href="#" style={{color:'white'}}></a>
         </div>
       </nav>
     </div>
