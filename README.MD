@@ -1,17 +1,19 @@
-# Documentation Installing a Repository
+# citz-imb-full-stack-code-challenge-req97073
+
+## Documentation Installing a Repository
 
 This documents guide you to how to install the application in your system.
 
 ## Prerequisites
 
-Before you can install a code repository on your PC, you will need to have the following software installed:
+Before you install a code repository on your PC, you will need to have the following software installed:
 
 * Node (any version)
 
 ## Fllow below steps to install repository
 
 1) The first step is to select specific folder and clone a reposritory on your PC. 
-2) After clone the reposrity open folder project folder in VSCode.
+2) After clone the reposrity open project folder in VSCode.
 3) Open terminal in VSCode. slect Terminal > New Terminal and run below code.
 
 # Backend APIs
@@ -48,7 +50,7 @@ http://localhost:3000/api/api-docs/
 
 For runnig the Frontend open a new terminal using Terminal > New Terminal and run below code. Make Sure that the backed server was start, don't use same terminal for running the Frontend server.
 
-Ooen main folder of the project
+Open main folder of the project
 ```cmd
 cd ..
 ```
@@ -62,7 +64,7 @@ Run below code to install all required libraries for the Frontend
 npm install --save   // need to change
 ```
 
-Starting the application run below code if it asked for running different port then press YES in terminal. it will change the port to 3001.
+Starting the application, run below code if it asked for running different port then press YES or Y in terminal. it will change the port to 3001.
 ```cmd
 npm start
 ````
@@ -73,7 +75,7 @@ http://localhost:3001/
 
 ## Conclusion
 
-After that runing http://localhost:3001/ the react app will start and you can see data tables on the screen and you can perfomes ADD, UPDATE, and DELETE oprations in the applications.
+After that runing http://localhost:3001/ the react app will start and you can see data tables on the screen and you can perfomes All oprations in the applications.
 
 
 
